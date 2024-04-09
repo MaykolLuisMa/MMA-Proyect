@@ -97,3 +97,16 @@ Para ejecutar el programa use el comando:
 streamlit run src/app.py
 
 Necesitará tener la ya mencionada biblioteca pulp así como streamlit.
+
+### Datos extra:
+En caso que se desee agregar nuevas tesis, es necesario hacerlo en el archivo JSON de la carpeta data de nuestro programa. La estructura es la siguiente:
+["título de la tesis", ["nombre tutor", "nombre oponente", "nombre presidente", "nombre secretario", "nombre vocal"], null, null]
+Por ejemplo:
+["Title1", ["Albert Einstein", "Alan Turing", "Isaac Newton", "Pit\u00e1goras de Samos", "Euclides"], null, null]
+Los últimos dos valores nulos corresponden al lugar y la fecha.
+
+Para agregar un nuevo profesor solo se necesita:
+["nombre profesor",null]
+Por ejemplo:
+["Fernando",null]
+El valor null, es la preferencia por un determinado horario, al que se le asignarán valores por defecto, y se pueden modifcar desde la interfaz gráfica.
