@@ -2,7 +2,8 @@ import json
 import os
 from datetime import datetime
 from typing import Dict, List
-from utils import hour__dict__, hour_from_dict
+from utils import hour__dict__, hour_from_dict, load_stats
+from Hour import Date_Controller
 class Professor:
     def __init__(self, name):
         self.name = name
@@ -13,10 +14,14 @@ class Professor:
 def load_professors():
     with open(os.getcwd() + "/data/professors.json",'r') as file:
         professors = json.load(file)
+    start_date,_,_,_ = load_stats()
     profs = []
     for p in professors:
         pr = Professor(p[0])
-        pr.hours_preference = {hour_from_dict(hi[0]):hi[1] for hi in p[1]}
+        if p[1] != None:
+            pr.hours_preference = {hour_from_dict(hi[0]):hi[1] for hi in p[1]}
+        else:
+            Date_Controller().set_default_hour_preference([pr],start_date)
         profs.append(pr)
     return profs
 

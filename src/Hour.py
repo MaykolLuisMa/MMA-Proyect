@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from copy import copy, deepcopy
 from typing import List
-from Professor import Professor
 class Date_Controller:
     total_days = 3.0
     tesis_duration = timedelta(hours=1.0)
@@ -22,7 +21,7 @@ class Date_Controller:
                 hours.append(copy(date))
             date += self.tesis_duration
         return hours
-    def set_default_hour_preference(self, professors : List[Professor], start_date):
+    def set_default_hour_preference(self, professors : List, start_date):
         hours = self.get_hours(start_date)
         for p in professors:
             p.hours_preference = {h:3 for h in hours}
