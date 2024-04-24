@@ -19,10 +19,10 @@ Se ha considerado que todos los locales están disponibles en cualquier horario 
 
 Se asigna 1 hora para cada defensa de tesis, 45 minutos de defensa y un margen de 15 minutos para problemas técnicos. Cada profesor asigna un valor de conveniencia para entre 0 y 3 para cada hora en dependencia de qué horarios prefieran, y el programa asigna los horarios de tal forma que los profesores queden lo más satisfechos posible. 
 
-Los tribunales ya están confeccionados, cada tribunal está compuesto por 5 roles y el profesor asignado a cada rol desempeña una función diferente durante la exposición. Es decir, hay 5 tareas que realizar para cada tesis, cada una con su respectivo profesor asignado y nuestro trabajo es indicar el horario para cada tarea, lo que equivale a asignar el horario de sus respectivas tesis.
+Los tribunales ya están confeccionados, cada tribunal está compuesto por 5 roles y los profesores asignadoa a cada rol desempeñan una función diferente durante la exposición. Es decir, hay 5 tareas que realizar para cada tesis, cada una con uno o más profesores asignados y nuestro trabajo es indicar el horario para cada tarea, lo que equivale a asignar el horario de sus respectivas tesis.
 
 Nuestro programa permite agregar y eliminar los locales disponibles, modificar la preferencia de cada profesor por cada horario y establecer la fecha de comienzo y la duración total de las defensas (usualmente de 3 días) .
-También permite acceder a los profesores y tesis registrados, sin embargo no se pueden modificar esos valores. Esto se debe a que en la definición del problema se indica que las tesis y su respectivo tribunal ya están establecidos por lo que agregar una nueva tesis con un tribunal asignado, o modificar alguno de los tribunales existentes es un nivel de autoridad que consideramos no debe tener nuestro programa, del mismo modo, agregar un nuevo profesor que no participa en ninguno de los tribunales carece de sentido.
+Para las tesis, estas se extraen de un archivo xlsx que debe contener las columnas estudiante, tutor, oponente, presidente, secretario, vocal y local. Los profesores también se extraen de aquí, casi cualquier texto en la casilla indicada será considerado un profesor, estos se separarán por comas, sin embargo no se admiten caracteres ? por considerarse que indica falta de información y conduce a errores.    
 
 ## Modelo
 
@@ -50,20 +50,14 @@ $x_{th} = {
   { 0 \text{ si se realiza en otro horario  }}
 }
 $
-
-$y_{wh} = { 
-  { 1    \text{ si la tesis w se realiza en el hora h}} \atop
-  { 0 \text{ si se realiza en otro horario }}
-}
-$
 ### Función objetivo:
 
 $\text{max} \sum_t^T{\sum_h^H{c_{th}x_{th}}}
 $
 
-Donde $c_{th}$ es la preferencia que tenga el profesor asignado a la tarea t por el horario h, y se calcula mediante la fórmula:
+Donde $c_{th}$ es la preferencia que tengan los en promedio los profesores asignados a la tarea t por el horario h, y se calcula mediante la fórmula:
 
-$c_{th} = \sum_p^P{P_{pxh}(p,h)R_{pxt}(p,t)}
+$c_{th} = \frac{\sum_p^P{P_{pxh}(p,h)R_{pxt}(p,t)}}{\sum_p^PR_{pxt}}
 $
 
 ### Restricciones:
@@ -99,14 +93,4 @@ streamlit run src/app.py
 Necesitará tener la ya mencionada biblioteca pulp así como streamlit.
 
 ### Datos extra:
-En caso que se desee agregar nuevas tesis, es necesario hacerlo en el archivo JSON de la carpeta data de nuestro programa. La estructura es la siguiente:
-["título de la tesis", ["nombre tutor", "nombre oponente", "nombre presidente", "nombre secretario", "nombre vocal"], null, null]
-Por ejemplo:
-["Title1", ["Albert Einstein", "Alan Turing", "Isaac Newton", "Pit\u00e1goras de Samos", "Euclides"], null, null]
-Los últimos dos valores nulos corresponden al lugar y la fecha.
-
-Para agregar un nuevo profesor solo se necesita:
-["nombre profesor",null]
-Por ejemplo:
-["Fernando",null]
-El valor null, es la preferencia por un determinado horario, al que se le asignarán valores por defecto, y se pueden modifcar desde la interfaz gráfica.
+En caso que se desee agregar nuevas tesis, eliminarla o modificar su tribunal, puede editar el correspondiente archivo tribunales.xlsx en data.
