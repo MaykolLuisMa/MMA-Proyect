@@ -14,17 +14,19 @@ class Professor:
 def load_professors():
     with open(os.getcwd() + "/data/professors.json",'r') as file:
         professors = json.load(file)
-    start_date,_,_,_ = load_stats()
+    begin,start,finish,duration = load_stats()
     profs = []
     for p in professors:
-        pr = Professor(p[0])
+        pr = create_professor(p[0],begin,start,finish, duration)
         if p[1] != None:
             pr.hours_preference = {hour_from_dict(hi[0]):hi[1] for hi in p[1]}
-        else:
-            Date_Controller().set_default_hour_preference([pr],start_date)
         profs.append(pr)
     return profs
 
+def create_professor(name, begin,start,finish,duration):
+    prof = Professor(name)
+    Date_Controller(duration,start,finish).set_default_hour_preference([prof],begin)
+    return prof
 def save_professors(professors : List[Professor]):
     professors_dicts = [[p.name,[[hour__dict__(h),i] for h,i in p.hours_preference.items()]] for p in professors]
     with open(os.getcwd() + "/data/professors.json",'w') as file:

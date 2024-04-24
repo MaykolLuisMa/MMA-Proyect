@@ -42,3 +42,11 @@ def do_change(begin,start,end,duration):
     if (begin != begin2 or start != start2 or end != end2 or duration != duration2):
         return True
     return False
+
+def professors_concat(list):
+    total = ""
+    for i in range(len(list)):
+        total += list[i].name
+        if i != len(list)-1:
+            total += ", "
+    return total

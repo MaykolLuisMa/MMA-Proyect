@@ -5,7 +5,7 @@ from typing import List
 from datetime import datetime
 from utils import hour__dict__, hour_from_dict
 class Thesis:
-    def __init__(self, title : str, mentor : Professor, opponent : Professor, president : Professor, secretary : Professor, spokesman : Professor, hour = None, place = None):
+    def __init__(self, title : str, mentor : List[Professor], opponent : List[Professor], president : List[Professor], secretary : List[Professor], spokesman : List[Professor], hour = None, place = None):
         self.title = title
         self.mentor = mentor
         self.opponent = opponent
@@ -24,7 +24,8 @@ class Thesis:
             
     def __eq__(self, other : object):
         return self.title == other.title
-        
+    def __hash__(self) -> int:
+        return self.title.__hash__()
 def assign_hour(tasks, variable, hour : List):
     for t in tasks:
         for h in hour:

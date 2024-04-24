@@ -2,10 +2,10 @@ from typing import List
 from Thesis import Thesis
 from Professor import Professor
 class Task:
-    def __init__(self, id, thesis : Thesis, professor : Professor):
+    def __init__(self, id, thesis : Thesis, professors : List[Professor]):
         self.id = id
         self.thesis = thesis
-        self.professor = professor
+        self.professors = professors
 
 def get_tasks(all_thesis : List[Thesis]):
     i = 0
